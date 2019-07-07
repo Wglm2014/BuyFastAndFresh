@@ -14,13 +14,16 @@ app.use(express.json());
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("./routes/apiGetRoutes");
-app.use("./routes/apiPostRoutes");
+const apiPostRoutes = require("./routes/apiPostRoutes");
+const apiGetRoutes = require("./routes/apiGetRoutes");
+const htmlRoutes = require("./routes/htmlRoutes");
+app.use(apiPostRoutes);
+app.use(apiGetRoutes);
 //app.use("./routes/apiPutRoutes");
 //app.use("./routes/apiDeleteRoutes");
-app.use("./routes/htmlRoutes");
+app.use(htmlRoutes);
 
-db.sequelize.sync({ force: false }).then(function () {
+db.sequelize.sync({ force: true }).then(function () {
     app.listen(PORT, function () {
         console.log("App listening on PORT: " + PORT);
     });

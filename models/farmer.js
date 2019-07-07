@@ -55,11 +55,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         account_status: {
             type: DataTypes.BOOLEAN,
-            default: 1
+            default: true
         },
         open_close: {
             type: DataTypes.BOOLEAN,
-            default: 1
+            default: true
         }
 
     });

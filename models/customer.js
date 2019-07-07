@@ -30,7 +30,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [5],
+                len: [10],
                 is: /(^\d{5}$)|(^\d{5}-\d{4}$)/
             }
         },
@@ -39,10 +39,10 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true
         },
         telephone: {
-            type: DataTypes,
+            type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [10],
+                len: [14],
                 is: /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             }
         },
@@ -50,7 +50,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [10],
+                len: [14],
                 is: /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             }
         }

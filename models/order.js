@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [5],
+                len: [5, 10],
                 isIn: {
                     args: [/(^\d{5}$)|(^\d{5}-\d{4}$)/]
                 }
@@ -44,7 +44,7 @@ module.exports = function (sequelize, DataTypes) {
             default: 0.0625
         },
         fee: {
-            type: DataTypes,
+            type: DataTypes.DECIMAL,
             allowNull: true
         },
         status: {

@@ -49,7 +49,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         account_status: {
             type: DataTypes.BOOLEAN,
-            default: 1
+            default: true
         },
         account_number: {
             type: DataTypes.STRING,

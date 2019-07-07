@@ -25,19 +25,25 @@ module.exports = function (sequelize, DataTypes) {
 
             }
         },
-        date: {
+        date_open: {
+            type: DataTypes.DATEONLY,
+            allowNull: true,
+            default: new Date(),
+            validate: { isDate: true }
+        },
+        date_close: {
             type: DataTypes.DATEONLY,
             allowNull: true,
             default: new Date(),
             validate: { isDate: true }
         },
         time_open: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: true,
             default: new Date()
         },
         time_close: {
-            type: DataTypes.DATE,
+            type: DataTypes.STRING,
             allowNull: true,
             default: new Date()
         }

@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const db = require("../models");
-const productImages = require("apiProcutImages");
+const productImages = require("./apiProductImages");
 
 //create new record for market
 router.post("/api/market/", (req, res) => {
@@ -82,4 +82,4 @@ router.post("/api/order_detail", (req, res) => {
 });
 
 
-return router;
+module.exports = router;
