@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "RootRoot1973",
+    "password": "RootRoot19&#",
     "database": "fastandfresh_db",
     "host": "127.0.0.1",
     "dialect": "mysql",

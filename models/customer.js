@@ -1,18 +1,17 @@
+
 module.exports = function (sequelize, DataTypes) {
     const Customer = sequelize.define("Customer", {
         email: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: {
-                isEmail()
-            }
+            validate: { isEmail: true }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: true
         },
         first_name: {
-            type: STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         last_name: {

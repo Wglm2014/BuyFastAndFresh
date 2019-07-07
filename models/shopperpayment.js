@@ -1,15 +1,15 @@
 module.exports = function (sequelize, DataTypes) {
-    const ShopperPayment = sequelize.define("Shopper_Payment", {
+    const ShopperPayment = sequelize.define("ShopperPayment", {
         payment_date: {
             type: DataTypes.DATEONLY,
             allowNull: true,
             default: new Date(),
-            validate: { isDate() }
+            validate: { isDate: true }
         },
         total_amount: {
             type: DataTypes.DECIMAL,
             allowNull: true,
-            validate: { isDecimal() }
+            validate: { isDecimal: true }
         }
     });
 

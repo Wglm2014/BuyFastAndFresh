@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const OrderDetail = ("Order_Detail", {
+    const OrderDetail = sequelize.define("OrderDetail", {
         price: {
             type: DataTypes.DECIMAL,
             allowNull: false

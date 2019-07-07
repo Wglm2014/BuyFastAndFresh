@@ -1,5 +1,5 @@
 module.exports = function (sequelize, DataTypes) {
-    const PaymentMethod = sequelize.define("Payment_Method", {
+    const PaymentMethod = sequelize.define("PaymentMethod", {
         name_on_card: {
             type: DataTypes.STRING,
             allowNull: true
@@ -27,12 +27,12 @@ module.exports = function (sequelize, DataTypes) {
         credit_card: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { isCreditCard() }
+            validate: { isCreditCard: true }
         },
         expiration_date: {
             type: DataTypes.DATEONLY,
             allowNull: true,
-            validate: { isDate() }
+            validate: { isDate: true }
         },
         scv: {
             type: DataTypes.STRING,
@@ -54,7 +54,7 @@ module.exports = function (sequelize, DataTypes) {
     });
 
     PaymentMethod.associate = function (models) {
-        PaymentMethod.belongTo(models.Customer, {
+        PaymentMethod.belongsTo(models.Customer, {
             allowNull: false
         });
     }

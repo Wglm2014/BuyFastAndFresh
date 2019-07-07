@@ -4,7 +4,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                isEmail()
+                isEmail: true
             }
         },
         password: {
@@ -12,7 +12,7 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true
         },
         first_name: {
-            type: STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         last_name: {
@@ -20,15 +20,15 @@ module.exports = function (sequelize, DataTypes) {
             allowNull: true
         },
         address: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         city: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         zip: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true,
             validate: {
                 len: [5, 10],

@@ -1,23 +1,23 @@
-module.exports = function (sequelize, DataType) {
+module.exports = function (sequelize, DataTypes) {
     const Market = sequelize.define("Market", {
         brand: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         address: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         city: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         state: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         zip: {
-            type: DataType.STRING,
+            type: DataTypes.STRING,
             allowNull: true,
             validate: {
                 len: [5],
@@ -26,18 +26,18 @@ module.exports = function (sequelize, DataType) {
             }
         },
         date: {
-            type: DATEONLY,
+            type: DataTypes.DATEONLY,
             allowNull: true,
             default: new Date(),
-            validate: { isDate() }
+            validate: { isDate: true }
         },
         time_open: {
-            type: DataType.DATE,
+            type: DataTypes.DATE,
             allowNull: true,
             default: new Date()
         },
         time_close: {
-            type: DataType.DATE,
+            type: DataTypes.DATE,
             allowNull: true,
             default: new Date()
         }

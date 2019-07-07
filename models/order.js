@@ -56,7 +56,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.DATEONLY,
             allowNull: true,
             default: new Date(),
-            validate: { isDate() }
+            validate: { isDate: true }
         }
 
     });
@@ -68,7 +68,7 @@ module.exports = function (sequelize, DataTypes) {
     }
 
     Order.associate = function (models) {
-        Order.belongsTo(models.customer, {
+        Order.belongsTo(models.Customer, {
             foreingKey: {
                 allowNull: false
             }
@@ -76,7 +76,7 @@ module.exports = function (sequelize, DataTypes) {
     }
 
     Order.associate = function (models) {
-        Order.belongsTo(models.shopper, {
+        Order.belongsTo(models.Shopper, {
             foreingKey: {
                 allowNull: false
             }

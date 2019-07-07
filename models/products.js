@@ -19,7 +19,7 @@ module.exports = function (sequelize, DataTypes) {
         picture_url: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: { isUrl() }
+            validate: { isUrl: true }
         }
     });
 
@@ -40,8 +40,10 @@ module.exports = function (sequelize, DataTypes) {
     }
     Product.associate = function (models) {
         Product.hasMany(models.OrderDetail, {
-            onDelete: "cascade"
+            foreingKey: {
+                allowNull: false
+            }
         });
     }
-    return Products;
+    return Product;
 }
