@@ -78,9 +78,16 @@ module.exports = function (sequelize, DataTypes) {
     Order.associate = function (models) {
         Order.belongsTo(models.Shopper, {
             foreingKey: {
-                allowNull: false
+                allowNull: true
             }
         });
     }
+
+    Order.associate = function (models) {
+        Order.belongsTo(models.Market, {
+            onDelete: "cascade"
+        });
+    }
+
     return Order;
 }

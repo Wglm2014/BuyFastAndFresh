@@ -4,7 +4,7 @@ const productImages = require("./apiProductImages");
 
 //create new record for market
 router.post("/api/market/", (req, res) => {
-    db.Market.create(req.body).then((market) => {
+    db.Market.create({ id: req.body.id, address: req.body.address, products: req.body.products, schedule: req.body.schedule }).then((market) => {
         res.json({ succes: true, market });
     }).catch(err => {
         res.json({ succes: false, error: err });

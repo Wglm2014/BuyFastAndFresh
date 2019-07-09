@@ -72,6 +72,7 @@ module.exports = function (sequelize, DataTypes) {
         Farmer.hasMany = (models.Product, {
             onDelete: "cascade"
         });
+
     }
     Farmer.associate = function (models) {
         Farmer.hasMany = (models.FarmerPayment, {
