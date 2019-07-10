@@ -71,6 +71,7 @@ function validate(data) {
         return valid;
 
     }
+    return valid;
 }
 
 function errorModal(message) {

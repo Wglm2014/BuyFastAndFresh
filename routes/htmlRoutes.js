@@ -14,7 +14,7 @@ router.get("/customer-account", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/customerRegister.html"));
 });
 
-router.get("/farmer-product", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/farmerProduct.html"));
+router.get("/farmer-product/:farmerId", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/addProduct.html/" + req.body.farmerId));
 });
 module.exports = router;

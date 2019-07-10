@@ -45,18 +45,19 @@ function getDetails(id) {
 $("#market-table").on("click", ".save-market", function (event) {
     event.preventDefault();
     const id = $(this).attr("id");
+    const el = $(this);
     const address = $(`#${id}-address`).text();
     const schedule = $(`#${id}-schedule`).text();
     const products = $(`#${id}-products`).text();
 
     const data = { id, products, address, schedule };
+    console.log(data.products.length);
 
     $.post("/api/market", data, function (results) {
         if (results.success) {
             $("#market-list").append(`<a href="/customer-product/${results.id}" class="dropdown-item>${results.address}, ${results.schedule}, ${results.products}</a>`)
             //$(`#${results.id}-row`).remove();
-            $(this).hide();
-            window.location.href = "/";
+            el.hide();
         } else {
             console.log(results.error);
         }
