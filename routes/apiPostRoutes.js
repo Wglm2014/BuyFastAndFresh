@@ -1,7 +1,5 @@
 const router = require("express").Router();
 const db = require("../models");
-const productImages = require("./apiProductImages");
-
 //create new record for market
 router.post("/api/market/", (req, res) => {
     db.Market.create({ id: req.body.id, address: req.body.address, products: req.body.products, schedule: req.body.schedule }).then((market) => {
@@ -14,37 +12,22 @@ router.post("/api/market/", (req, res) => {
 
 //create new record for farmer
 router.post("/api/farmer", (req, res) => {
-    console.log(req.body);
+    console.log("req.body " + req.body);
     db.Farmer.create({
         name: req.body.name,
         email: req.body.email, password: req.body.password, address: req.body.address,
         city: req.body.city, zip: req.body.zip, state: req.body.state, telephone: req.body.telephone,
         category: req.body.category, brand: req.body.brand, account_number: req.body.account_number,
-        account_status: req.body.account_status, open_close: req.body.open_close, marketId: req.body.marketId
+        account_status: req.body.account_status, open_close: req.body.open_close, MarketId: req.body.marketId
     }).then((farmerData) => {
         console.log(farmerData);
+        console.log("before");
+        req.session.userFarmer = farmerData;
+        console.log("after");
+        console.log(req.session.userFarmer);
         res.json({ success: true, farmerData: farmerData });
     }).catch(err => {
         res.json({ success: false, error: err });
-    });
-});
-
-router.post("/api/product", (req, res) => {
-    productImages.savePicture(req.body.file).then(response => {
-        db.Product.create(
-            {
-                name: req.body.name,
-                price: req.body.price,
-                price_per: req.body.price_per,
-                picture_name: response.fileName,
-                picture_url: response.url,
-                farmerId: req.body.farmerId
-            }
-        ).then((product) => {
-            res.json({ success: true, product });
-        }).catch(err => {
-            res.json({ success: false, error: err });
-        });
     });
 });
 

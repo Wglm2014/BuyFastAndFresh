@@ -35,13 +35,12 @@ $("#add").on("click", function (event) {
     console.log(newFarmerAccount);
     $.post("/api/farmer", newFarmerAccount, function (farmerData) {
       console.log(farmerData);
-      if (farmerData) {
+      if (farmerData.success) {
         console.log("sending get");
-        $.get("/farmer-product/" + farmerData.id, function (result) {
-          console.log('fail get' + result);
-        });
+        window.location.href = "/farmer-product";
       } else {
         console.log(farmerData.error);
+
       }
     });
   }

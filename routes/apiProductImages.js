@@ -1,37 +1,66 @@
 const uuidv4 = require('uuid/v4');
-
+const fs = require("fs");
 const AWS = require('aws-sdk');
+const model = require("../models");
+const router = require("express").Router();
+
 
 const BUCKET_NAME = "fnf2020"
 const BUCKET_BASE_URL = `https://fnf2020.s3.us-east-2.amazonaws.com/${BUCKET_NAME}`;
 
-// AWS S3
-const S3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+
+AWS.config.update({
+  accessKeyId: "AKIAIKF5LFN4QYLKE3UQ",
+  secretAccessKey: "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",
   subregion: 'us-east-2'
 });
 
+// AWS S3
+const S3 = new AWS.S3();
 
-function createProduct(newProduct) {
-
+router.post("/api/product", (req, res) => {
+  console.log("enter post");
+  let newProduct = req.body;
+  const buffer = new Buffer.from(
+    newProduct.file.replace(/^data:image\/\w+;base64,/, ''),
+    'base64'
+  );
   const pictureName = uuidv4() + '-product';
-
   S3.putObject({
-    Bucket: '${BUCKET_NAME}',
+    Bucket: BUCKET_NAME,
     Key: pictureName,
-    Body: newProduct,
+    Body: buffer,
     ContentEncoding: 'base64',
     ContentType: 'image/png',
     ContentDisposition: 'inline',
     ACL: 'public-read'
   }, (err, data) => {
-    if (err) return reject(err);
+    if (err) {
+      console.log(err);
+      return err;
+    }
+    console.log("image loaded");
     console.log(data);
-    const productData = { pictureName, url: `${BUCKET_BASE_URL}/${pictureName}` }
-    return (productData);
+    const newProductRow = {
+      name: newProduct.name,
+      price: newProduct.price,
+      price_per: newProduct.price_per,
+      picture_name: pictureName,
+      picture_url: `${BUCKET_BASE_URL}/${pictureName}`,
+      FarmerId: newProduct.FarmerId
+    }
+    console.log(newProductRow);
+    model.Product.create(
+      newProductRow
+    ).then((product) => {
+      console.log(product);
+      return ({ success: true, product });
+    }).catch(err => {
+      return ({ success: false, error: err });
+    });
+
   });
-}
+});
 
 function deleteProduct(oldProduct) {
   S3.deleteObject({
@@ -42,5 +71,4 @@ function deleteProduct(oldProduct) {
   });
 }
 
-module.exports = createProduct;
-module.exports = deleteProduct;
+module.exports = router;
