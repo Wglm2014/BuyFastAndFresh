@@ -6,12 +6,12 @@ const router = require("express").Router();
 
 
 const BUCKET_NAME = "fnf2020"
-const BUCKET_BASE_URL = `https://fnf2020.s3.us-east-2.amazonaws.com/${BUCKET_NAME}`;
+const BUCKET_BASE_URL = `https://fnf2020.s3.us-east-2.amazonaws.com`;
 
 
 AWS.config.update({
-  accessKeyId: "AKIAIKF5LFN4QYLKE3UQ",
-  secretAccessKey: "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",
+  accessKeyId: "AKIAIWZCCRANOHAZIS4A",
+  secretAccessKey:"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",
   subregion: 'us-east-2'
 });
 
@@ -54,9 +54,9 @@ router.post("/api/product", (req, res) => {
       newProductRow
     ).then((product) => {
       console.log(product);
-      return ({ success: true, product });
+      res.send({ success: true, product });
     }).catch(err => {
-      return ({ success: false, error: err });
+      res.send({ success: false, error: err });
     });
 
   });

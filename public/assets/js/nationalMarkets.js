@@ -2,9 +2,8 @@ $("#search-market").on("click", function (event) {
     event.preventDefault();
     const zipMarket = $("#zip-market").val();
     getResults(zipMarket);
-
-
 });
+
 function getResults(zip) {
     // or
     // function getResults(lat, lng) {
@@ -16,6 +15,7 @@ function getResults(zip) {
         // or
         // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
         dataType: 'jsonp'
+        //jsonpCallback: 'searchResultsHandler'
     }).then(function (searchResults) {
         searchResults.results.forEach(element => {
             getDetails(element.id);
@@ -25,14 +25,15 @@ function getResults(zip) {
     });
 }
 
-function getDetails(id) {
-    $.ajax({
-        type: "GET",
-        contentType: "application/json; charset=utf-8",
-        // submit a get request to the restful service mktDetail.
-        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
-        dataType: 'jsonp'
-    }).then(function (detailresults) {
+    function getDetails(id) {
+        $.ajax({
+            type: "GET",
+            contentType: "application/json; charset=utf-8",
+            // submit a get request to the restful service mktDetail.
+            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
+            dataType: 'jsonp'
+            //jsonpCallback: 'detailResultHandler'
+        }).then(function (detailresults) {
         const selectMarket = $("#market-table");
         selectMarket.append(`<tr class="market-row" id="${id}-row">
         <td id="${id}-address">${detailresults.marketdetails.Address}</td>
