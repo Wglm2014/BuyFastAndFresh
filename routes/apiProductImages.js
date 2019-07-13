@@ -4,14 +4,13 @@ const AWS = require('aws-sdk');
 const model = require("../models");
 const router = require("express").Router();
 
-
+//move to .env
 const BUCKET_NAME = "fnf2020"
 const BUCKET_BASE_URL = `https://fnf2020.s3.us-east-2.amazonaws.com`;
 
-
 AWS.config.update({
-  accessKeyId: "AKIAIWZCCRANOHAZIS4A",
-  secretAccessKey:"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",
+  accessKeyId: process.env.AWS_ACCESS_ID_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ID_KEY,
   subregion: 'us-east-2'
 });
 

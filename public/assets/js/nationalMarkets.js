@@ -18,22 +18,29 @@ function getResults(zip) {
         //jsonpCallback: 'searchResultsHandler'
     }).then(function (searchResults) {
         searchResults.results.forEach(element => {
-            getDetails(element.id);
+            $.get("api/market" + element.id, function (marketFound) {
+                if (marketFound) {
+                    console.log("market exist");
+                } else {
+                    getDetails(element.id);
+                }
+            });
+
 
         });
         $("#Modal").modal("toggle");
     });
 }
 
-    function getDetails(id) {
-        $.ajax({
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            // submit a get request to the restful service mktDetail.
-            url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
-            dataType: 'jsonp'
-            //jsonpCallback: 'detailResultHandler'
-        }).then(function (detailresults) {
+function getDetails(id) {
+    $.ajax({
+        type: "GET",
+        contentType: "application/json; charset=utf-8",
+        // submit a get request to the restful service mktDetail.
+        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/mktDetail?id=" + id,
+        dataType: 'jsonp'
+        //jsonpCallback: 'detailResultHandler'
+    }).then(function (detailresults) {
         const selectMarket = $("#market-table");
         selectMarket.append(`<tr class="market-row" id="${id}-row">
         <td id="${id}-address">${detailresults.marketdetails.Address}</td>
@@ -53,7 +60,6 @@ $("#market-table").on("click", ".save-market", function (event) {
 
     const data = { id, products, address, schedule };
     console.log(data.products.length);
-
     $.post("/api/market", data, function (results) {
         if (results.success) {
             $("#market-list").append(`<a href="/customer-product/${results.id}" class="dropdown-item>${results.address}, ${results.schedule}, ${results.products}</a>`)
@@ -65,5 +71,3 @@ $("#market-table").on("click", ".save-market", function (event) {
     });
 
 });
-
-

@@ -7,7 +7,10 @@ module.exports = function (sequelize, DataTypes) {
         email: {
             type: DataTypes.STRING,
             allowNull: true,
-            validate: { isEmail: true }
+            key: true,
+            validate: { isEmail: true },
+            index: true,
+            unique: true
         },
         password: {
             type: DataTypes.STRING,
@@ -37,7 +40,7 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                len: [10, 13],
+                len: [10, 14],
                 is: /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/
             }
         },

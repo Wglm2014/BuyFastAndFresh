@@ -1,23 +1,25 @@
-$("#add").on("click", function(event) {
+$("#add").on("click", function (event) {
   event.preventDefault();
 
   const newShopperAccount = {
-    first_name: $("#first-name").val(),
-    last_name: $("#last-name").val(),
     email: $("#email").val(),
     password: $("#password").val(),
-    telephone: $("#phone-number").val(),
+    first_name: $("#first-name").val(),
+    last_name: $("#last-name").val(),
     address: $("#address").val(),
-    zip: $("#zip-code").val(),
     city: $("#city").val(),
-    state: $("#state").val()
+    zip: $("#zip-code").val(),
+    state: $("#state").val(),
+    telephone: $("#phone-number").val(),
+    account_status: true,
+    account_number = $("account-number").val(),
   };
 
   console.log(newShopperAccount);
 
   const doPost = validate(newShopperAccount);
   if (doPost) {
-    $.post("/api/shopper", newShopperAccount, function(shopperReturn) {
+    $.post("/api/shopper", newShopperAccount, function (shopperReturn) {
       if (shopperReturn.success) {
       } else {
         errorModal(shopperReturn.err);

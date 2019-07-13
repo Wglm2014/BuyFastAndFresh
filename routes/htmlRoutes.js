@@ -2,6 +2,8 @@
 const router = require("express").Router();
 const path = require("path");
 
+let isAuthenticated = require("../config/middleware/isAuthenticated");
+
 router.get("/", (req, res) => { res.sendFile("index.html") });
 
 router.get("/farmer-account", (req, res) => {
@@ -16,5 +18,8 @@ router.get("/customer-account", (req, res) => {
 
 router.get("/farmer-product", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/addProduct.html"));
+});
+router.get("/shop", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/CustomerShop.html"));
 });
 module.exports = router;
