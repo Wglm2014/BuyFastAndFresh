@@ -5,7 +5,7 @@ const model = require("../models");
 const router = require("express").Router();
 
 //move to .env
-const BUCKET_NAME = "fnf2020"
+//const BUCKET_NAME = "fnf2020"
 const BUCKET_BASE_URL = `https://fnf2020.s3.us-east-2.amazonaws.com`;
 
 AWS.config.update({
@@ -26,7 +26,7 @@ router.post("/api/product", (req, res) => {
   );
   const pictureName = uuidv4() + '-product';
   S3.putObject({
-    Bucket: BUCKET_NAME,
+    Bucket: process.env.BUCKET_NAME,
     Key: pictureName,
     Body: buffer,
     ContentEncoding: 'base64',

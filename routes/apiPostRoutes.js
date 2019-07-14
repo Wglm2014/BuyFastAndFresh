@@ -3,7 +3,7 @@ const db = require("../models");
 const passport = require("../config/passport");
 
 router.post("/api/login", passport.authenticate("local"), function (req, res) {
-    res.json("/");
+    res.json({ success: true, user: req.user.email });
 });
 
 //create new record for market
@@ -33,7 +33,7 @@ router.post("/api/farmer", (req, res) => {
                 account_status: req.body.account_status, open_close: req.body.open_close, MarketId: req.body.marketId
             }).then((farmerData) => {
                 console.log(farmerData);
-                res.json({ success: true, farmerData: farmerData });
+                res.redirect(307, "/api/login");
             }).catch(err => {
                 res.json({ success: false, error: err });
             });
@@ -56,7 +56,7 @@ router.post("/api/shopper", (req, res) => {
         console.log(user);
         if (user) {
             db.Shopper.create(req.body).then(shopper => {
-                res.json({ success: true, shopper });
+                res.redirect(307, "/api/login");
             }).catch(err => {
                 res.json({ success: false, error: err });
             });
@@ -79,9 +79,12 @@ router.post("/api/customer", (req, res) => {
         console.log(user);
         if (user) {
             console.log("user if");
+            console.log(req.body);
             db.Customer.create(req.body).then(customer => {
-                res.json({ success: true, customer });
+                console.log(customer);
+                res.redirect(307, "/api/login");
             }).catch(err => {
+                console.log(err);
                 res.json({ success: false, error: err });
             });
         } else { res.json(user); }

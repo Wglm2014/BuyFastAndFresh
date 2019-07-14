@@ -18,8 +18,10 @@ function getResults(zip) {
         //jsonpCallback: 'searchResultsHandler'
     }).then(function (searchResults) {
         searchResults.results.forEach(element => {
-            $.get("api/market" + element.id, function (marketFound) {
-                if (marketFound) {
+            console.log(element);
+            $.get("/api/markets/" + element.id, function (marketFound) {
+                console.log(marketFound);
+                if (marketFound.length !== 0) {
                     console.log("market exist");
                 } else {
                     getDetails(element.id);
@@ -62,7 +64,7 @@ $("#market-table").on("click", ".save-market", function (event) {
     console.log(data.products.length);
     $.post("/api/market", data, function (results) {
         if (results.success) {
-            $("#market-list").append(`<a href="/customer-product/${results.id}" class="dropdown-item>${results.address}, ${results.schedule}, ${results.products}</a>`)
+            $("#market-list").append(`<a id = "${results.id}" href="/customer-product/" class="dropdown-item market-link>${results.address}, ${results.schedule}, ${results.products}</a>`)
             //$(`#${results.id}-row`).remove();
             el.hide();
         } else {

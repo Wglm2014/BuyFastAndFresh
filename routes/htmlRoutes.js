@@ -19,7 +19,7 @@ router.get("/customer-account", (req, res) => {
 router.get("/farmer-product", (req, res) => {
     res.sendFile(path.join(__dirname, "../public/addProduct.html"));
 });
-router.get("/shop", (req, res) => {
-    res.sendFile(path.join(__dirname, "../public/CustomerShop.html"));
+router.get("/customerShop", (req, res) => {
+    res.sendFile(path.join(__dirname, "../public/customerShop.html"));
 });
 module.exports = router;

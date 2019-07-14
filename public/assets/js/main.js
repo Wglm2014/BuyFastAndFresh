@@ -1,3 +1,4 @@
+let destination = "";
 $(document).ready(function () {
     marketList = $("#markets-list");
 
@@ -14,25 +15,30 @@ $(document).ready(function () {
     });
 
 });
-
+// substitute for login-customer
 $("#login").on("click", function (event) {
-
+    destination = "/customerShop";
     event.preventDefault();
     $("#Modal-login").modal("toggle");
 })
-
+//substitu for login-shopper
+$("#login-shopper").on("click", function (event) {
+    destination = "/product-farmer";
+    event.preventDefault();
+    $("#Modal-login").modal("toggle");
+})
 $("#login-button").on("click", function () {
     const email = $("#email").val();
     const password = $("#password").val();
     const user = { email, password };
     $.post("/api/login", user, function (userResult) {
         console.log("back");
-        console.log(userResult);
+        console.log(userResult.success);
         if (userResult) {
             $("#email").val("");
             $("#password").val("");
-            window.location.href(userResult);
             $("Modal-login").modal("hide");
+            window.location.href = destination;
         }
         else {
             console.log("user not found");
@@ -40,4 +46,8 @@ $("#login-button").on("click", function () {
     });
 });
 
-
+$("#markets-list").on("click", ".market-link", function (event) {
+    event.preventDefault();
+    market = $(this).attr("id");
+    localStorage.setItem("market", market);
+});

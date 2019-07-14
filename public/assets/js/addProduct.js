@@ -10,31 +10,33 @@
   telephone: "1082448888",
   account_number: "111111111111"
 };*/
+let farmerId = 0;
 $(document).ready(function () {
-  $.get("/api/product-farmer", function (farmerData) {
+  $.get("/api/farmerData", function (farmerData) {
+    console.log(farmerData);
+    //loading default data
+    farmerId = farmerData.id;
+    $("#name").val(farmerData.name);
+    $("#email").val(farmerData.email);
+    $("#password").val(farmerData.password);
+    $("#address").val(farmerData.address);
+    $("#city").val(farmerData.city);
+    $("#zip-code").val(farmerData.zip);
+    $("#state").val(farmerData.state);
+    $("#phone-number").val(farmerData.telephone);
+    $("#account-number").val(farmerData.account_number);
 
-  console.log(farmerData);
-  //loading default data
-  $("#name").val(farmerData.name);
-  $("#email").val(farmerData.email);
-  $("#password").val(farmerData.password);
-  $("#address").val(farmerData.address);
-  $("#city").val(farmerData.city);
-  $("#zip-code").val(farmerData.zip);
-  $("#state").val(farmerData.state);
-  $("#phone-number").val(farmerData.telephone);
-  $("#account-number").val(farmerData.account_number);
-
-  // });
-  $.get("/api/product-farmer", function (productData) {
-    if (productData) {
-      productData.forEach(element => {
-        appendProduct(element);
-      });
-      console.log(productData);
-    } else {
-      console.log(productData.error);
-    }
+    // });
+    $.get("/api/product-farmer", function (productData) {
+      if (productData) {
+        productData.forEach(element => {
+          appendProduct(element);
+        });
+        console.log(productData);
+      } else {
+        console.log(productData.error);
+      }
+    });
   });
 });
 
@@ -94,7 +96,7 @@ $("#save-btn").on("click", function () {
     price: $("#price").val(),
     price_per: $("#price-unity").val(),
     file: img.src,
-    FarmerId: farmerData.id,
+    FarmerId: farmerId
   };
 
   const productValid = productsValidate(newProduct);
@@ -103,9 +105,9 @@ $("#save-btn").on("click", function () {
     $.post("/api/product", newProduct, function (productData) {
       console.log(productData);
       console.log("after post");
-      if (productData.success){
-      appendProduct(productData.product);
-    }
+      if (productData.success) {
+        appendProduct(productData.product);
+      }
     });
   }
 });
@@ -121,7 +123,7 @@ function appendProduct(newProduct) {
   $("#product-area").append(card);
 }
 //delete product
-$("#product-area").on("click", "#delete", function() {
+$("#product-area").on("click", "#delete", function () {
 
   //$.delete("api/product",productId,function(){});
   $(this)

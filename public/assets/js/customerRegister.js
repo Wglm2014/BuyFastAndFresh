@@ -21,9 +21,9 @@ $("#add").on("click", function (event) {
   if (doPost) {
     $.post("api/customer", newCustomerAccount, function (customerReturn) {
       if (customerReturn.success) {
-        window.location.href("/customerShop");
+        window.location.href = "/customerShop";
       } else {
-        errorModal(customerReturn.err);
+        errorModal(customerReturn.error);
       }
     });
   }
@@ -48,7 +48,7 @@ function validate(data) {
   }
 
   if (data.email != $("#email-comprobation").val()) {
-    valid = errorModal("Please enter the correct email");
+    valid = errorModal("Please enter the same email address");
     $("#email-comprobation").focus();
     return valid;
   }
@@ -57,8 +57,8 @@ function validate(data) {
     $("#password").focus();
     return valid;
   }
-  if (data.password != $("#password-comprobation").val()) {
-    valid = errorModal("Please enter the correct password");
+  if (data.password !== $("#password-comprobation").val()) {
+    valid = errorModal("Please enter a password that matches");
     $("#password-comprobation").focus();
     return valid;
   }
