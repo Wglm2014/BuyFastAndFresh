@@ -94,7 +94,6 @@ router.get("/api/isLoggedin", function (req, res) {
 
 router.get("/api/payments/:id", async function (req, res) {
     const paymentMethods = await db.PaymentMethod.findAll({ where: { id: req.params.id } });
-    console.log(paymentMethods);
     res.json(paymentMethods);
 });
 
