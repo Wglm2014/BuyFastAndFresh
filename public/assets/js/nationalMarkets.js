@@ -15,7 +15,7 @@ function getResults(zip) {
         // or
         // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
         dataType: 'jsonp',
-        // jsonpCallback: 'searchResultsHandler'
+        //jsonpCallback: 'searchResultsHandler'
     }).then(function (searchResults) {
         searchResults.results.forEach(element => {
             console.log(element);
