@@ -9,7 +9,7 @@ body {
 }
 
 nav {
-  height: 5vh;
+  height: 10vh;
 }
 
 .header {
@@ -58,6 +58,7 @@ nav {
   font-size: 35px;
   font-weight: bold;
   color: white;
+  
 }
 
 #info-1 {

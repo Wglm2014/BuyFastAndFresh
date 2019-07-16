@@ -33,18 +33,22 @@
       <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-            Accounts
+            SignIn For Customers
           </a>
           <div class="dropdown-menu">
-            <a class="dropdown-item" href="/farmer-account">Create a farmer account</a>
-            <a class="dropdown-item" href="/shopper-account">Create a shopper account</a>
-            <a class="dropdown-item" href="/customer-account">Create a customer account</a>
+            <a class="dropdown-item" href="/customer-account">Create a Customer Account</a>
+            <a class="dropdown-item" id="login-customer" href="#">Login</a>
           </div>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" id="login" href="#">Login</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+            SignIn for Shoppers
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/farmer-account">Create a Shopper Account</a>
+            <a class="dropdown-item" id="login-shopper" href="#">Login</a>
+          </div>
         </li>
-
       </ul>
       <div class="col-1"></div>
     </nav>
@@ -54,13 +58,7 @@
       </p>
       <p id="main-title">Fast & Fresh</p>
       <p id="title-2">from the farm to your table</p>
-      <div class="search-container">
-        <form>
-          <input type="text" placeholder="enter zip code to find Farmer Market Places" id="zip-market"
-            name="zip-market">
-          <button id="search-market" type="submit"><i class="fas fa-search"></i></button><br>
-        </form>
-      </div>
+
     </div>
     <div class="info-section">
       <div class="flip-card">
@@ -71,12 +69,12 @@
             stall
           </div>
           <div class="flip-card-back">
-            <h1>
+            <h3>
               If your are a local producer or goods like produce, diary, crafts, or delicious homemade food and would
               like to
               market them online for the day you are open on a Farmers Market. Here is the place to create your online
               stall!
-            </h1>
+            </h3>
           </div>
         </div>
       </div>
@@ -92,12 +90,12 @@
             </p>
           </div>
           <div class="flip-card-back">
-            <h1>
+            <h3>
               If you want to make extra money, come to a Farmers Market and get online orders ready, for locals to
               just
               grab
               their basket of fresh products!
-            </h1>
+            </h3>
           </div>
         </div>
       </div>
@@ -109,52 +107,11 @@
             Local Products
           </div>
           <div class="flip-card-back">
-            <h1>
+            <h3>
               Consume resh local products, and have them ready for you, just to pick up. Order online and save time
               shopping at local Farmer Markets Places in your city or town.
-            </h1>
+            </h3>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Modal for Markets-->
-  <div class="modal fade bd-example-modal-lg" id="Modal" tabindex="-1" role="dialog" aria-labelledby="ModalTitle"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title" id="ModalTitle">Select Favorite Market</h1>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="container-fluid">
-            <!-- Camera -->
-            <main id="modal-markets">
-              <div class="row">
-                <div class="col-12">
-                  <table class="table table-striped">
-                    <thead>
-                      <tr>
-                        <th scope="col">Address</th>
-                        <th scope="col">Schedule</th>
-                        <th scope="col">Products</th>
-                        <th scope="col">Add to Favorites</th>
-                      </tr>
-                    </thead>
-                    <tbody id="market-table">
-                    </tbody>
-
-                  </table>
-                </div>
-            </main>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <!-- Camera trigger -->
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close Form</button>
         </div>
       </div>
     </div>
@@ -198,12 +155,44 @@
       </div>
     </div>
   </div>
+
+  <!--Error Loggin-->
+  <div class="modal fade bd-example-modal-lg" id="Modal-message-login" tabindex="-1" role="dialog"
+    aria-labelledby="ModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title" id="ModalTitle">login</h1>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="container-fluid">
+            <main id="modal-login">
+              <div class="row">
+                <div class="col-12">
+
+                  <div class="form-group">
+                    <h1>Please Loggin or Create Account</h1>
+                  </div>
+
+                </div>
+            </main>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-info" id="login-button" type="submit">Login</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--Bootstrap scripts-->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
   <script src="./assets/js/main.js"></script>
-  <script src="./assets/js/nationalMarkets.js"></script>
 </body>
 
 </html>

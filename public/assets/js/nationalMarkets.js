@@ -30,7 +30,7 @@ function getResults(zip) {
 
 
         });
-        $("#Modal").modal("toggle");
+        $("#Modal-markets").modal("toggle");
     });
 }
 
@@ -64,8 +64,9 @@ $("#market-table").on("click", ".save-market", function (event) {
     console.log(data.products.length);
     $.post("/api/market", data, function (results) {
         if (results.success) {
-            $("#market-list").append(`<a id = "${results.id}" href="/customer-product/" class="dropdown-item market-link>${results.address}, ${results.schedule}, ${results.products}</a>`)
-            //$(`#${results.id}-row`).remove();
+            let marketList = $("#markets-list");
+            marketInfo = `${element.address}, ${element.schedule}`;
+            marketList.append(`<option value = ${element.id}>${marketInfo}</option>`);
             el.hide();
         } else {
             console.log(results.error);

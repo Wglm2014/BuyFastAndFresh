@@ -16,7 +16,7 @@ $(document).ready(function () {
 
 });
 // substitute for login-customer
-$("#login").on("click", function (event) {
+$("#login-customer").on("click", function (event) {
     destination = "/customerShop";
     event.preventDefault();
     $("#Modal-login").modal("toggle");
@@ -48,6 +48,11 @@ $("#login-button").on("click", function () {
 
 $("#markets-list").on("click", ".market-link", function (event) {
     event.preventDefault();
-    market = $(this).attr("id");
-    localStorage.setItem("market", market);
+    $.get("/api/isLoggedin", function (userLogin) {
+        if (userLogin.success) {
+            window.location.href = "/customerShop"
+        } else {
+            $("Modal-message-login").modal("toggle");
+        }
+    });
 });
