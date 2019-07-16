@@ -38,15 +38,6 @@ module.exports = function (sequelize, DataTypes) {
             type: DataTypes.DECIMAL,
             allowNull: true
         },
-        tax: {
-            type: DataTypes.DECIMAL,
-            allowNull: true,
-            default: 0.0625
-        },
-        fee: {
-            type: DataTypes.DECIMAL,
-            allowNull: true
-        },
         status: {
             type: DataTypes.STRING,
             allowNull: true,
@@ -74,21 +65,5 @@ module.exports = function (sequelize, DataTypes) {
             }
         });
     }
-
-    Order.associate = function (models) {
-        Order.belongsTo(models.Shopper, {
-            foreignKey: {
-                allowNull: true
-            }
-        });
-
-        Order.belongsTo(models.Market, {
-            foreignKey: {
-                allowNull: true
-            }
-        });
-    }
-
-
     return Order;
 }

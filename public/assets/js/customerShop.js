@@ -2,7 +2,6 @@
 const TAX_RATE = 0.0625;
 const FEE_RATE = 0.03;
 let orderObj = [];
-let orderInfo = {};
 let farmerInfo = {};
 let items = 0;
 $(document).ready(function () {
@@ -14,12 +13,14 @@ $(document).ready(function () {
     sellers.forEach(farmer => {
 
       $("#sellers-info").append(`<tr><td class ="search" market-address = "${farmer.Market.address}" market-brand = "${farmer.Market.products}" 
-      id = "${farmer.id}"><a href = "#" >${farmer.name}, ${farmer.brand}</a></td></tr>`);
+      id = "${farmer.id}"><a href = "#" ><h5>${farmer.name}</h5><p>${farmer.Market.address} ${farmer.brand}</a></td></tr>`);
 
     }); //foreach*/
   }); // end get
 }); //end function
 
+
+//switch product information when user clicks
 $("#sellers-info").on("click", ".search", function (event) {
 
   event.preventDefault();
@@ -31,8 +32,7 @@ $("#sellers-info").on("click", ".search", function (event) {
   marketInfo.html("");
   productArea.html("");
 
-  marketInfo.html(`<div class="col-4"><p>${marketAddress}</p></div>
-  <div class="col-8"><p>${marketBrand}</p></div>`);
+  marketInfo.html(`<div class="col-12"><p>${marketBrand}</p></div>`);
   console.log(searchId);
   $.get("/api/product-farmer/" + searchId, function (products) {
     console.log(products);
@@ -46,12 +46,14 @@ $("#sellers-info").on("click", ".search", function (event) {
       onClick="addToCart(this)" class="add-cart"><i class="fa fa-cart-plus" aria-hidden="true"></i></button></div></div>
       </div>`);
       productArea.append(card);
+
     });
 
   });
 
 });//sellers info
 
+//add product to shopping cart when user clicks on the basket+ and adds it to the Json
 function addToCart(product) {
   const id = product.getAttribute("id");
   const name = product.getAttribute("name");
@@ -79,13 +81,8 @@ $("#checkout").on("click", function (event) {
 
 });
 
-//NEED TO START WORKING ON DISPLAY THE ORDER ON TABLE FORMAT
-//1.add information to Table and accumilate totals
-//2. insert information into json object ready for order post
-//3.validate payment before attempting to complete order
-// Order section from here
+//checkout process begin here
 function checkout(data) {
-  orderInfo = {};
   let subTotal_receipt = 0;
   $("#receipt-body").html("");
 
@@ -100,9 +97,9 @@ function checkout(data) {
   const total_receipt = subTotal_receipt + taxes + packFee;
   $("#receipt-foot").html("");
   $("#receipt-foot").append(`<tr><td colspan="4"> subtotal</td><td>${subTotal_receipt.toFixed(2)}</td></tr>`);
-  $("#receipt-foot").append(`<tr> <td colspan="4">tax</td><td>${taxes.toFixed(2)}</td></tr>`);
-  $("#receipt-foot").append(`<tr><td colspan="4"> packing fee</td><td>${packFee.toFixed(2)}</td></tr>`);
-  $("#receipt-foot").append(`<tr> <td colspan="4"> Total</td> <td>${total_receipt.toFixed(2)}</td></tr>`);
+  $("#receipt-foot").append(`<tr> <td colspan="4" >tax</td><td id="tax">${taxes.toFixed(2)}</td></tr>`);
+  $("#receipt-foot").append(`<tr><td colspan="4" > packing fee</td><td id="fee">${packFee.toFixed(2)}</td></tr>`);
+  $("#receipt-foot").append(`<tr> <td colspan="4"> Total</td> <td id="total-receipt" data = ${total_receipt}>${total_receipt.toFixed(2)}</td></tr>`);
 
   $.get("/api/isLoggedin", function (userEmail) {
     //if user is logged in search for payment information else display form to add payment method
@@ -132,10 +129,11 @@ function checkout(data) {
                 <input id="city" type= "text" class="form-control" value="${userData.city}">
                 <input id="state" type= "text" class="form-control" value="${userData.state}">
                 <input id="zip" type= "text" class="form-control" value="${userData.zip}">
-                <div class ="form-group"><label>Credita Card Infor</label>
+                <div class ="form-group"><label>Credita Card Info</label>
                 <input id="credit_card" type= "text" class="form-control" placeholder = "CC number">
                 <input id="scv" type= "text" class="form-control" placeholder ="SCV">
                 <input id="expiration_date" type= "date" class="form-control" placeholder="expiration date">
+                <p>Primary Pay <span><input id="primary_pay" type= "checkbox" class="form-control" value=1 checked></span></p>
                 <button id = "save-payment" type="submit" class="btn btn-info" customer-data="${userData.id}">Save Payment and Order!</button> </div>
               </form>
             </div>`);
@@ -158,9 +156,64 @@ $("#back").on("click", function () {
 
 $("#payment").on("click", "#save-payment", function (event) {
   event.preventDefault();
-  console.log($(this).attr("id"));
-  orderObj = [];
-  orderInfo = {};
+  const btnId = ($(this).attr("id"));
+  const paymentMethod = {
+    name_on_card: $("#name-on-card").val(),
+    address: $("#address").val(),
+    city: $("#city").val(),
+    zip: $("#state").val(),
+    state: $("#zip").val(),
+    credit_card: $("#credit_card").val(),
+    expiration_date: $("#expiration_date").val(),
+    scv: $("#scv").val(),
+    primary_pay: $("#primary_pay").val(),
+    active: 1,
+    CustomerId: $(`#${btnId}`).attr("customer-data")
+  };
+  console.log(paymentMethod);
+  console.log($("#total-receipt").attr("data"));
+  const order = {
+    address: $("#address").val(),
+    city: $("#city").val(),
+    zip: $("#zip").val(),
+    state: $("#state").val(),
+    credit_card: $("#credit_card").val(),
+    expiration_date: $("#expiration_date").val(),
+    scv: $("#scv").val(),
+    total: $("#total-receipt").attr("data"),
+    status: "order",
+    date_order: new Date(),
+    CustomerId: $(`#${btnId}`).attr("customer-data")
+  }
+  console.log(order);
+  $.post("/api/payment", paymentMethod, function (paymentData) {
+    //stores payment method on table
+    if (paymentData.success) {
+      $.post("/api/oder", order, function () {
+        //if payment stored stores order
+        if (order.success) {
+          console.log(order);
+          orderObj.forEach(product => {
+            const orderDetail = {
+              amount: product.quantity,
+              product_packt: 0,
+              OrderId: order.Id,
+              ProductId: product.id,
+            }
+            $.post("/api/order-detail", orderDetail, function (orderDetailData) {
+              if (orderDetailData.success) {
+                console.log(orderDetailData);
+              } else {
 
-  //save the post detail info, order info payment etc.
+              }
+            });
+          });
+        } else {
+
+        }
+      });
+    } else {
+
+    }
+  });
 });

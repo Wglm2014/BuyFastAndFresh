@@ -47,6 +47,7 @@ router.post("/api/farmer", (req, res) => {
 });
 
 router.post("/api/shopper", (req, res) => {
+    console.log("payment");
     console.log(req.body);
 
     db.User.create({
@@ -99,8 +100,26 @@ router.post("/api/customer", (req, res) => {
 
 });
 
-router.post("/api/payment_method", (req, res) => {
-    db.PaymentMethod.create(req.body).then(paymentMethod => {
+router.post("/api/payment", (req, res) => {
+    console.log("aqui");
+    console.log(typeof (req.body));
+    db.PaymentMethod.create(
+        {
+            name_on_card: req.body.name_on_card,
+            address: req.body.address,
+            city: req.body.city,
+            zip: req.body.zip,
+            state: req.body.state,
+            credit_card: req.body.credit_card,
+            expiration_date: req.body.expiration_date,
+            scv: req.body.scv,
+            primary_pay: 1,
+            active: 1,
+            CustomerId: +req.body.CustomerId
+        }
+    ).then((paymentMethod) => {
+        console.log("here");
+        console.log(paymentMethod);
         res.json({ success: true, paymentMethod });
     }).catch(err => {
         res.json({ success: false, error: err });
@@ -115,7 +134,7 @@ router.post("/api/order", (req, res) => {
     });
 });
 
-router.post("/api/order_detail", (req, res) => {
+router.post("/api/order-detail", (req, res) => {
     db.OrderDetail.create(
         req.body
     ).then(order => {

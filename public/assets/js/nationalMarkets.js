@@ -14,8 +14,8 @@ function getResults(zip) {
         url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
         // or
         // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
-        dataType: 'jsonp'
-        //jsonpCallback: 'searchResultsHandler'
+        dataType: 'jsonp',
+        // jsonpCallback: 'searchResultsHandler'
     }).then(function (searchResults) {
         searchResults.results.forEach(element => {
             console.log(element);
@@ -65,8 +65,8 @@ $("#market-table").on("click", ".save-market", function (event) {
     $.post("/api/market", data, function (results) {
         if (results.success) {
             let marketList = $("#markets-list");
-            marketInfo = `${element.address}, ${element.schedule}`;
-            marketList.append(`<option value = ${element.id}>${marketInfo}</option>`);
+            marketInfo = `${results.market.address}, ${results.market.schedule}`;
+            marketList.append(`<option value = ${results.market.id}>${marketInfo}</option>`);
             el.hide();
         } else {
             console.log(results.error);

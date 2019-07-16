@@ -24,9 +24,6 @@ module.exports = function (sequelize, DataTypes) {
         Market.hasMany(models.Farmer, {
             onDelete: "cascade"
         });
-        Market.hasMany(models.Order, {
-            onDelete: "cascade"
-        });
     }
 
     return Market;
