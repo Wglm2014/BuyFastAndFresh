@@ -11,7 +11,7 @@ function getResults(zip) {
         type: "GET",
         contentType: "application/json; charset=utf-8",
         // submit a get request to the restful service zipSearch or locSearch.
-        url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
+        url: "https://search.ams.usda.gov/farmersmarkets/v1/data.svc/zipSearch?zip=" + zip,
         // or
         // url: "http://search.ams.usda.gov/farmersmarkets/v1/data.svc/locSearch?lat=" + lat + "&lng=" + lng,
         dataType: 'jsonp',
