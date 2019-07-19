@@ -69,7 +69,9 @@ function addToCart(product) {
 }
 $("#checkout").on("click", function (event) {
   if (items === 0) {
+    $("#modal-message").text("Cart Has no Items")
     $("#Modal-message").modal("toggle");
+
 
   } else {
     event.preventDefault();
@@ -114,8 +116,9 @@ function checkout(data) {
             //if the user has payments
             console.log("lenght")
             paymentData.forEach(payment => {
-              $("#payment").append(`<div class="card payments" id="${paymentData.CustomerId}"><h5 class="cc-number"><i class="fa fa-credit-card-alt" aria-hidden="true"></i>:${payment.credit_card}</h5>
-                <h5 class="expiration-date">csv: ${payment.scv}</h5><h5 class="expiration-date">Expiration Date: ${payment.expiration_date}</h5> <input type="checkbox" value="${payment.primary_pay}"></input></div>`);
+              $("#payment").append(`<div class="card payments" id="${paymentData.CustomerId}"><h5 class="cc-number"><i class="fa fa-credit-card" aria-hidden="true"></i>:${payment.credit_card}</h5>
+                <h5 class="expiration-date">csv: ${payment.scv}</h5><h5 class="expiration-date">Expiration Date: ${payment.expiration_date}</h5> <input type="checkbox" value="${payment.primary_pay}"><h5>Use Payment</h5></input>
+                <button class="btn btn-info" type="submit" id="place-order" customer-data = ${userData.id}>Place Order</button></div>`);
             });
           } else {
             console.log(userData);
@@ -161,8 +164,8 @@ $("#payment").on("click", "#save-payment", function (event) {
     name_on_card: $("#name-on-card").val(),
     address: $("#address").val(),
     city: $("#city").val(),
-    zip: $("#state").val(),
-    state: $("#zip").val(),
+    zip: $("#zip").val(),
+    state: $("#state").val(),
     credit_card: $("#credit_card").val(),
     expiration_date: $("#expiration_date").val(),
     scv: $("#scv").val(),
@@ -170,6 +173,7 @@ $("#payment").on("click", "#save-payment", function (event) {
     active: 1,
     CustomerId: $(`#${btnId}`).attr("customer-data")
   };
+  console.log(typeod(paymentMethod.expiration_date));
   console.log(paymentMethod);
   console.log($("#total-receipt").attr("data"));
   const order = {
@@ -186,34 +190,41 @@ $("#payment").on("click", "#save-payment", function (event) {
     CustomerId: $(`#${btnId}`).attr("customer-data")
   }
   console.log(order);
-  $.post("/api/payment", paymentMethod, function (paymentData) {
+  console.log(paymentMethod);
+  $.post("/api/payment/", paymentMethod, function (paymentData) {
     //stores payment method on table
     if (paymentData.success) {
-      $.post("/api/oder", order, function () {
-        //if payment stored stores order
-        if (order.success) {
-          console.log(order);
-          orderObj.forEach(product => {
-            const orderDetail = {
-              amount: product.quantity,
-              product_packt: 0,
-              OrderId: order.Id,
-              ProductId: product.id,
-            }
-            $.post("/api/order-detail", orderDetail, function (orderDetailData) {
-              if (orderDetailData.success) {
-                console.log(orderDetailData);
-              } else {
-
-              }
-            });
-          });
-        } else {
-
-        }
-      });
+      saveOrder(order);
     } else {
 
     }
   });
 });
+
+function saveOrder(order) {
+  $.post("/api/order", order, function () {
+    //if payment stored stores order
+    if (order.success) {
+      console.log(order);
+      orderObj.forEach(product => {
+        const orderDetail = {
+          amount: product.quantity,
+          product_packt: 0,
+          OrderId: order.Id,
+          ProductId: product.id,
+        }
+        $.post("/api/order-detail", orderDetail, function (orderDetailData) {
+          if (orderDetailData.success) {
+            console.log(orderDetailData);
+            $("#modal-message").text("Order will be ready for you  to pick Up");
+            $("#Modal-message").modal("toggle");
+          } else {
+
+          }
+        });
+      });
+    } else {
+
+    }
+  });
+}

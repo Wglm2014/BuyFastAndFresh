@@ -14,11 +14,7 @@ module.exports = function (sequelize, DataTypes) {
         },
         zip: {
             type: DataTypes.STRING,
-            allowNull: true,
-            validate: {
-                len: [5],
-                is: /(^\d{5}$)|(^\d{5}-\d{4}$)/
-            }
+            allowNull: true
         },
         state: {
             type: DataTypes.STRING,
@@ -26,13 +22,11 @@ module.exports = function (sequelize, DataTypes) {
         },
         credit_card: {
             type: DataTypes.STRING,
-            allowNull: true,
-            validate: { isCreditCard: true }
+            allowNull: true
         },
         expiration_date: {
             type: DataTypes.DATEONLY,
-            allowNull: true,
-            validate: { isDate: true }
+            allowNull: true
         },
         scv: {
             type: DataTypes.STRING,

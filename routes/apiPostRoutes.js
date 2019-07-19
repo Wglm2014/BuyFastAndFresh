@@ -100,9 +100,16 @@ router.post("/api/customer", (req, res) => {
 
 });
 
-router.post("/api/payment", (req, res) => {
+router.post("/api/payment/", async (req, res) => {
     console.log("aqui");
-    console.log(typeof (req.body));
+    console.log(req.body.CustomerId +
+        " " + req.body.address +
+        " " + req.body.city +
+        " " + req.body.zip +
+        " " + req.body.state +
+        " " + req.body.credit_card +
+        " " + typeof (req.body.expiration_date) +
+        " " + req.body.scv);
     db.PaymentMethod.create({
         name_on_card: req.body.name_on_card,
         address: req.body.address,
@@ -112,8 +119,8 @@ router.post("/api/payment", (req, res) => {
         credit_card: req.body.credit_card,
         expiration_date: req.body.expiration_date,
         scv: req.body.scv,
-        primary_pay: 1,
-        active: 1,
+        primary_pay: true,
+        active: true,
         CustomerId: +req.body.CustomerId
     }).then((paymentMethod) => {
         console.log("here");
@@ -122,6 +129,7 @@ router.post("/api/payment", (req, res) => {
     }).catch(err => {
         res.json({ success: false, error: err });
     });
+
     console.log("after");
 
 });
